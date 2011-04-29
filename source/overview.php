@@ -1,4 +1,11 @@
 <?php
+	include 'classes/OverviewFilter.php';
+   	session_start();
+   
+   	if(!isset($_SESSION['filter']))
+   		$_SESSION['filter'] = new OverviewFilter();
+   	
+
 ?>
 <html>
 <head>
@@ -8,14 +15,31 @@
 
 <body>
 	<div class="column span-5">
-		<h1>Filter</h1>
-		<br />
 		<h2>Filter</h2>
-		<br />
-		<h3>Filter</h3>
-		<br />
-		<h4>Filter</h4>
-		<br />
+		<form action="overview.php" method="POST">
+			Von: <br />
+			<input name="filter-from" type="text" 
+				value="<?php echo $_SESSION['filter']->getFrom(); ?>"> <br />
+			Bis: <br />
+			<input name="filter-to" type="text" 
+				value="<?php echo $_SESSION['filter']->getTo(); ?>"> <br />
+			Auftraggeber: <br />
+			<input name="filter-client" type="text" 
+				value="<?php echo $_SESSION['filter']->getClient(); ?>"> <br />
+			Status: <br />
+			<input type="checkbox" name="filter-planned" 
+				<?php if($_SESSION['filter']->getPlanned()) echo "checked"; ?> 
+				value="true">Planned<br />
+			<input type="checkbox" name="filter-in-progress" 
+				<?php if($_SESSION['filter']->getInprogress()) echo "checked"; ?> 
+				value="true">In Progress<br />
+			<input type="checkbox" name="filter-done" 
+				<?php if($_SESSION['filter']->getDone()) echo "checked"; ?> 
+				value="true">Done<br />
+			<input type="checkbox" name="filter-canceled" 
+				<?php if($_SESSION['filter']->getCanceled()) echo "checked"; ?> 
+				value="true">Canceled<br />
+		</form>
 	</div>
 	<div class="column">
 		<table>
@@ -27,18 +51,25 @@
 				<td width="100">Status</td>
 				<td width="50">Zeit</td>
 			</tr>
-			<form method="POST">
+			<form action="overview.php" method="POST">
 				<tr>
-					<td>!icon!</td>
+					<td><input type="image" src="new.png"></td>
 					<td><input name="date" type="text" style="width: 100%"></td>
-					<td><input name="date" type="text" style="width: 100%"></td>
-					<td><input name="date" type="text" style="width: 100%"></td>
-					<td><input name="date" type="text" style="width: 100%"></td>
-					<td><input name="date" type="text" style="width: 100%"></td>
+					<td><input name="client" type="text" style="width: 100%"></td>
+					<td><input name="description" type="text" style="width: 100%"></td>
+					<td>
+						<select name="date" style="width: 100%">
+					   		<option>Planned</option>
+					   		<option>In Progress</option>
+					   		<option>Done</option>
+					   		<option>Canceled</option>
+						</select>
+					</td>
+					<td><input name="time" type="text" style="width: 100%"></td>
 				</tr>
 			</form>
 			<tr>
-				<td>5</td>
+				<td><a href="editentry.php"><img src="edit.png" /></a></td>
 				<td>19-02-2011</td>
 				<td>Hochschule</td>
 				<td>Doing some REALY crazy shit</td>
@@ -46,8 +77,8 @@
 				<td>2.5</td>
 			</tr>
 			<tr class="time_entry"
-				onclick="window.location.href = 'http://www.google.de'">
-				<td>4</td>
+				onclick="window.location.href = 'editentry.php'" >
+				<td><img src="edit.png" /></td>
 				<td>18-02-2011</td>
 				<td>Hochschule</td>
 				<td>Doing some REALY crazy shit</td>
@@ -55,7 +86,7 @@
 				<td>2.5</td>
 			</tr>
 			<tr>
-				<td>3</td>
+				<td><a href="editentry.php"><img src="edit.png" /></a></td>
 				<td>18-02-2011</td>
 				<td>Google</td>
 				<td>Doing some REALY crazy shit</td>
@@ -63,7 +94,7 @@
 				<td>2.5</td>
 			</tr>
 			<tr>
-				<td>2</td>
+				<td><a href="editentry.php"><img src="edit.png" /></a></td>
 				<td>16-02-2011</td>
 				<td>Hochschule</td>
 				<td>Doing some REALY crazy shit</td>
@@ -71,7 +102,7 @@
 				<td>2.5</td>
 			</tr>
 			<tr>
-				<td>1</td>
+				<td><a href="editentry.php"><img src="edit.png" /></a></td>
 				<td>11-02-2011</td>
 				<td>Hochschule</td>
 				<td>Doing some REALY crazy shit</td>
