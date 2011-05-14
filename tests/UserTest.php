@@ -1,6 +1,6 @@
 <?php
 
-require_once '..\source\controls\admin\User.php';
+require_once '\..\source\controls\admin\User.php';
 
 /**
  * Test class for User.
