@@ -17,11 +17,19 @@ class OverviewFilter
 	
 	/*----SETTER----*/
 	public function setFrom($date) {
-		$this->from->modify($date);
+		$parsedDate = date_parse($date);
+		if($parsedDate)
+			$this->from->setDate($parsedDate['year'],
+								 $parsedDate['month'],
+								 $parsedDate['day']);
 	}
 	
 	public function setTo($date) {
-		$this->to->modify($date);
+		$parsedDate = date_parse($date);
+		if($parsedDate)
+			$this->to->setDate($parsedDate['year'],
+							   $parsedDate['month'],
+							   $parsedDate['day']);
 	}
 	
 	public function setClient($str) {

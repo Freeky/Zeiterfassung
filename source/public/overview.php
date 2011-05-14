@@ -1,9 +1,19 @@
 <?php
-	include 'classes/OverviewFilter.php';
+	require_once './controls/base/OverviewFilter.php';
    	session_start();
    
    	if(!isset($_SESSION['filter']))
    		$_SESSION['filter'] = new OverviewFilter();
+   	
+   	if(!empty($_POST['filter-form'])){
+   		$_SESSION['filter']->setFrom($_POST['filter-from']);
+   		$_SESSION['filter']->setTo($_POST['filter-to']);
+   		$_SESSION['filter']->setClient($_POST['filter-client']);
+   		$_SESSION['filter']->setPlanned(isset($_POST['filter-planned']));
+   		$_SESSION['filter']->setInprogress(isset($_POST['filter-in-progress']));
+   		$_SESSION['filter']->setDone(isset($_POST['filter-done']));
+   		$_SESSION['filter']->setCanceled(isset($_POST['filter-canceled']));
+   	}
    	
 
 ?>
@@ -16,7 +26,8 @@
 <body>
 	<div class="column span-5">
 		<h2>Filter</h2>
-		<form action="overview.php" method="POST">
+		<form name="filter-form" method="POST">
+		    <button type="submit">Filter anwenden</button><br />
 			Von: <br />
 			<input name="filter-from" type="text" 
 				value="<?php echo $_SESSION['filter']->getFrom(); ?>"> <br />
@@ -51,7 +62,7 @@
 				<td width="100">Status</td>
 				<td width="50">Zeit</td>
 			</tr>
-			<form action="overview.php" method="POST">
+			<form name="entry-add-form" method="POST">
 				<tr>
 					<td><input type="image" src="new.png"></td>
 					<td><input name="date" type="text" style="width: 100%"></td>
@@ -76,8 +87,7 @@
 				<td>DONE</td>
 				<td>2.5</td>
 			</tr>
-			<tr class="time_entry"
-				onclick="window.location.href = 'editentry.php'" >
+			<tr>
 				<td><img src="edit.png" /></td>
 				<td>18-02-2011</td>
 				<td>Hochschule</td>
