@@ -1,7 +1,7 @@
 <?php
 
-require_once 'C:\Users\Robman\Zeiterfassung\source\controls\admin\Controller.php';
-require_once 'C:\Users\Robman\Zeiterfassung\source\controls\admin\User.php';
+require_once '..\source\controls\admin\Controller.php';
+require_once '..\source\controls\admin\User.php';
 
 $db_host='localhost';
 $db_name='timetraveler';

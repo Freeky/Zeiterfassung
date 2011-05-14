@@ -1,6 +1,6 @@
 <?php
 
-require_once '..\cotrols\base\OverviewFilter.php';
+require_once '..\source\cotrols\base\OverviewFilter.php';
 
 /**
  * Test class for OverviewFilter.

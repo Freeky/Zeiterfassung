@@ -1,6 +1,6 @@
 <?php
 
-require_once 'C:\Users\Robman\Zeiterfassung\source\controls\admin\User.php';
+require_once '..\source\controls\admin\User.php';
 
 /**
  * Test class for User.
