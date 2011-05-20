@@ -8,7 +8,7 @@
 		private $description = NULL;
 		private $starttime = NULL;
 		private $endtime = NULL;
-		private status = NULL;
+		private $status = NULL;
 		
 		public function setID($id) { 
 			if($id < 0) Throw new Exception("received negativ id");

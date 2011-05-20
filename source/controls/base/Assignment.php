@@ -7,7 +7,7 @@
 		private $employer = NULL;
 		private $creationDate = NULL;
 		private $deadline = NULL;
-		private status = NULL;
+		private $status = NULL;
 		
 		public function setID($id) { 
 			if($id < 0) Throw new Exception("received negativ id");
@@ -24,7 +24,7 @@
 		}
 		
 		public function setEmployer($employer){ 
-			if($name == NULL or $name == "") Throw new Exception("received empty employer");
+			if($employer == NULL or $employer == "") Throw new Exception("received empty employer");
 			$this->employer = $employer; 
 		}
 		
