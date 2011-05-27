@@ -1,5 +1,5 @@
 <?php
-	require_once(dirname(__FILE__) . "../../controls/admin/Controller.php");
+	require_once(dirname(__FILE__) . "\..\..\controls\admin\Controller.php");
 	
 	$controller = new Controller();
 	
