@@ -10,7 +10,7 @@
 		private $status = NULL;
 		
 		public function setID($id) { 
-			if($id < 0) Throw new Exception("received negativ id");
+			if($id <= 0) Throw new Exception("received negativ id");
 			$this->id = $id; 
 		}
 		
@@ -28,7 +28,7 @@
 			$this->employer = $employer; 
 		}
 		
-		public function setCreationDate($date) { 
+		public function setCreationDate($date) {
 			$this->creationDate = $date; 
 		}
 		

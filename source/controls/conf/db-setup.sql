@@ -7,7 +7,7 @@
 
 CREATE  TABLE `timetraveler`.`user` (
   `uid` INT NOT NULL ,
-  `name` VARCHAR(20) NOT NULL ,
+  `user` VARCHAR(20) NOT NULL ,
   `password` VARCHAR(200) NOT NULL ,
   `pw_len` INT NOT NULL ,
   `admin` TINYINT(1)  NULL ,
@@ -17,7 +17,7 @@ CREATE  TABLE `timetraveler`.`user` (
 -- assignment Table
 
 CREATE  TABLE `timetraveler`.`assignment` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(200) NOT NULL ,
   `descritption` TEXT NULL ,
   `employer` VARCHAR(100) NOT NULL ,
@@ -29,7 +29,7 @@ CREATE  TABLE `timetraveler`.`assignment` (
 -- task Table
 
 CREATE  TABLE `timetraveler`.`task` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT ,
   `assignmentref` INT NOT NULL ,
   `userref` INT NOT NULL ,
   `starttime` DATETIME NOT NULL ,
