@@ -1,6 +1,6 @@
 <?php
-	require_once(dirname(__FILE__) . "../../controls/conf/functions.inc");
-	require_once(dirname(__FILE__) . "../../controls/admin/Controller.php");
+	require_once(dirname(__FILE__) . "/../../controls/conf/functions.inc");
+	require_once(dirname(__FILE__) . "/../../controls/admin/Controller.php");
 	$controller = new Controller();
 	session_start();
 	if($_SESSION['login']!="ok")
@@ -32,7 +32,7 @@
 			{
 				$controller->deleteUser($user);
 			}
-			echo "<meta http-equiv=\"refresh\" content=\"0; url=http://127.0.0.1/timetraveler2/admin/views/overview.php\">";
+			echo "<meta http-equiv=\"refresh\" content=\"0; url=overview.php\">";
 		}
 		
 		echo '

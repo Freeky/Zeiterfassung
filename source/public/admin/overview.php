@@ -1,6 +1,6 @@
 <?php
-	require_once(dirname(__FILE__) . "../../controls/conf/functions.inc");
-	require_once(dirname(__FILE__) . "../../controls/admin/Controller.php");
+	require_once(dirname(__FILE__) . "/../../controls/conf/functions.inc");
+	require_once(dirname(__FILE__) . "/../../controls/admin/Controller.php");
 	
 	$controller = new Controller();
 	session_start();
@@ -81,8 +81,8 @@
 	{
 		global $controller;
 		
-		$editpic="<img src=\"..\images\edit.jpg\" height=\"25\">";
-		$deletepic="<img src=\"..\images\x.jpg\" height=\"25\">";
+		$editpic="<img src=\"../images/edit.jpg\" height=\"25\">";
+		$deletepic="<img src=\"../images/x.jpg\" height=\"25\">";
 		$users=$controller->getAllUsers();
 		$tmp='<table border="0">';
 		$tmp.='<tr>';
@@ -105,7 +105,7 @@
 			$admin = $users[$i]->getAdmin();
 			if($admin==1){$admin="ADMIN";}else{$admin="USER";}
 			$tmp.='<tr>';
-			$tmp.='<td>'.$uid.'</td><td>'.$name.'</td><td>'.Dots($pw_len).'</td><td>'.$admin.'</td><td><a href="http://127.0.0.1/timetraveler2/admin/views/edit.php?uid='.$uid.'">'.$editpic.'</a></td><td><a href="http://127.0.0.1/timetraveler2/admin/views/delete.php?uid='.$uid.'">'.$deletepic.'</a></td>';
+			$tmp.='<td>'.$uid.'</td><td>'.$name.'</td><td>'.Dots($pw_len).'</td><td>'.$admin.'</td><td><a href="edit.php?uid='.$uid.'">'.$editpic.'</a></td><td><a href="delete.php?uid='.$uid.'">'.$deletepic.'</a></td>';
 			$tmp.='</tr>';
 		}
 		$tmp.='</table>';
