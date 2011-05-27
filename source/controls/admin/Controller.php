@@ -1,6 +1,6 @@
 <?php
-	require_once(dirname(__FILE__) . "\User.php");
-	require_once(dirname(__FILE__) . "\..\conf\connect_db.inc");
+	require_once(dirname(__FILE__) . "/User.php");
+	require_once(dirname(__FILE__) . "/../conf/connect_db.inc");
 
 	class Controller
 	{
