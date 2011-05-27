@@ -14,7 +14,7 @@
 		public function getAdmin(){return $this->admin;}
 		public function getPasswordLen(){return $this->pwlen;}
 		public function setUID($uid){$this->uid=$uid;}
-		public function setName($name){$this->name=mysql_escape_string($name);}
+		public function setName($name){$this->name=mysql_real_escape_string($name);}
 		public function setPassword($pass){$this->pwlen=strlen($pass);$this->pw=hash("sha512",$pass);}
 		public function setPasswordHash($pass){$this->pw=$pass;}
 		public function setPasswordLen($len){$this->pwlen=$len;}
