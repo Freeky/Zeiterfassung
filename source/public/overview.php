@@ -1,5 +1,5 @@
 <?php
-require_once '/../controls/base/OverviewFilter.php';
+require_once(dirname(__FILE__) . "/../controls/base/OverviewFilter.php");
 session_start();
  
 if(!isset($_SESSION['filter']))

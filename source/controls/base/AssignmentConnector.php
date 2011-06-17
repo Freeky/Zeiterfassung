@@ -1,10 +1,13 @@
 <?php
-	require_once '../conf/connect_db.inc';
-	require_once 'Assignment.php';
+	require_once(dirname(__FILE__) . "/../conf/connect_db.inc");
+	require_once(dirname(__FILE__) . "/Assignment.php");
 	
 	class AssignmentConnector {
 		
 		public function getAssignmentByID($id) {
+			if(!is_int($id) or $id <= 0) {
+				Throw new Exception("getAssignmentByID hat keine gültige ID erhalten");
+			}
 			$id = mysql_escape_string($id);
 			$query = "Select id, name, description, employer, creationdate, deadline, status from assignment where id = $id;";
 			$resource = mysql_query($query);
@@ -24,7 +27,7 @@
 										$status = NULL) {
 			
 			//evaluate and create query string
-			$query = "Select id, name, description, employer, creationdate, deadline, status from assignment where 1=1 "
+			$query = "Select id, name, description, employer, creationdate, deadline, status from assignment where 1=1 ";
 			
 			if(!is_null($name)) {
 				$query = $query."and name like '%".mysql_real_escape_string($name)."%' ";
@@ -39,25 +42,25 @@
 			}
 			
 			if(!is_null($minCreationDate)) {
-				$query = $query."and creationdate >= '".mysql_real_escape_string($minCreationDate)."' ";
+				$query = $query."and creationdate >= '".mysql_real_escape_string($minCreationDate->format("Y-m-d"))."' ";
 			}
 			
 			if(!is_null($maxCreationDate)) {
-				$query = $query."and creationdate <= '".mysql_real_escape_string($maxCreationDate)."' ";
+				$query = $query."and creationdate <= '".mysql_real_escape_string($maxCreationDate->format("Y-m-d"))."' ";
 			}
 			
 			if(!is_null($minDeadline)) {
-				$query = $query."and deadline >= '".mysql_real_escape_string($minDeadline)."' ";
+				$query = $query."and deadline >= '".mysql_real_escape_string($minDeadline->format("Y-m-d"))."' ";
 			}
 			
 			if(!is_null($maxDeadline)) {
-				$query = $query."and deadline <= '".mysql_real_escape_string($maxDeadline)."' ";
+				$query = $query."and deadline <= '".mysql_real_escape_string($maxDeadline->format("Y-m-d"))."' ";
 			}
 			
 			if(!is_null($status)) {
 				$query = $query."and ( 1=0 ";
 				foreach($status as $s) {
-					$query."or status = '".mysql_real_escape_string($s)."' "
+					$query = $query."or status = '".mysql_real_escape_string($s)."' ";
 				}
 				$query = $query.") ";
 			}
@@ -77,36 +80,96 @@
 		public function saveAssignment($assignment) {
 			
 			if(!(get_class($assignment) == "Assignment")) {
-				throw new Exception("saveAssignment needs an Argument of type Assignment")
+				throw new Exception("saveAssignment needs an Argument of type Assignment");
 			}
 			
 			if(is_null($assignment->getName()) or 
 			   is_null($assignment->getEmployer()) or 
 			   is_null($assignment->getCreationDate()) or
 			   is_null($assignment->getStatus())) {
-			   	throw new Exception("saveAssignment received an invalid Assignment")
+			   	throw new Exception("saveAssignment received an invalid Assignment");
 			}
 			
 			if($assignment->getID() <= 0) {
 				// Datensatz anlegen
-				$query = "insert into assignment (name, description, employer, creationdate, deadline, status) values ("
+				$query = "insert into assignment (name, description, employer, creationdate, deadline, status) values (";
+				$query = $query."'".mysql_real_escape_string($assignment->getName())."', ";
+				if(is_null($assignment->getDescription()))
+					$query = $query."NULL, ";
+				else 
+					$query = $query."'".mysql_real_escape_string($assignment->getDescription())."', ";
+					
+				$query = $query."'".mysql_real_escape_string($assignment->getEmployer())."', ";
+				
+				$query = $query."'".mysql_real_escape_string($assignment->getCreationDate()->format("Y-m-d"))."', ";
+				
+				if(is_null($assignment->getDeadline()))
+					$query = $query."NULL, ";
+				else 
+					$query = $query."'".mysql_real_escape_string($assignment->getDeadline()->format("Y-m-d"))."', ";
+				
+				$query = $query."'".mysql_real_escape_string($assignment->getStatus())."')";
+				
+				mysql_query($query);
+				
+				if(mysql_affected_rows() != 1)
+					Throw new Exception("Fehler beim Einfügen der Daten(".mysql_affected_rows()."): ".mysql_error());
 			} else {
 				// Datensatz updaten
+				$query = "update assignment set ";
+				$query = $query."name = '".mysql_real_escape_string($assignment->getName())."', ";
+				
+				if(is_null($assignment->getDescription()))
+					$query = $query."description = NULL, ";
+				else 
+					$query = $query."description = '".mysql_real_escape_string($assignment->getDescription())."', ";
+					
+				$query = $query."employer = '".mysql_real_escape_string($assignment->getEmployer())."', ";
+				
+				$query = $query."creationdate = '".mysql_real_escape_string($assignment->getCreationDate()->format("Y-m-d"))."', ";
+				
+				if(is_null($assignment->getDeadline()))
+					$query = $query."deadline = NULL, ";
+				else 
+					$query = $query."deadline = '".mysql_real_escape_string($assignment->getDeadline()->format("Y-m-d"))."', ";
+				
+				$query = $query."status = '".mysql_real_escape_string($assignment->getStatus())."' ";
+				
+				$query = $query."where id = ".$assignment->getID();
+				
+				mysql_query($query);
+				
+				if(!(mysql_affected_rows() <= 1) and !(mysql_affected_rows() >= 0))
+					Throw new Exception("Fehler beim Einfügen der Daten(".mysql_affected_rows()."): ".mysql_error());
 			}
 			
-			INSERT INTO `timetraveler`.`assignment` (`name`, `descritption`, `employer`, `creationdate`, `deadline`, `status`) VALUES ('Doing Whooop', 'jo', 'no', '27-5-2011', '1-1-2012', 'Planned');
 			
+		}
+		
+		private function deleteAssignment($id){
+			if(!is_int($id) or $id <= 0){
+				Throw new Exception("deleteAssignment hat keine gültige ID erhalten");
+			}
+			
+			$id = mysql_escape_string($id);
+			$query = "delete from assignment where id = $id;";
+			
+			mysql_query($query);
+			
+			if(mysql_affected_rows() != 1) {
+				Throw new Exception("Datensatz konnte nicht gelöscht werden");
+			}
 		}
 		
 		private function resultToAssignment($result)
 		{
 			$assignment = new Assignment;
 			$assignment->setID($result['id']);
-			$assignment->setName($reslut['name']);
-			$assignment->setDescription($result['name']);
+			$assignment->setName($result['name']);
+			$assignment->setDescription($result['description']);
 			$assignment->setEmployer($result['employer']);
-			$assignment->setCreationDate($result['creationdate']);
-			$assignment->setDeadline($result['deadline']);
+			$assignment->setCreationDate(new DateTime($result['creationdate']));
+			$assignment->setDeadline(new DateTime($result['deadline']));
 			$assignment->setStatus($result['status']);
 			
 			return $assignment;

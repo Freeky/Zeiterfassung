@@ -19,7 +19,7 @@ CREATE  TABLE `timetraveler`.`user` (
 CREATE  TABLE `timetraveler`.`assignment` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `name` VARCHAR(200) NOT NULL ,
-  `descritption` TEXT NULL ,
+  `description` TEXT NULL ,
   `employer` VARCHAR(100) NOT NULL ,
   `creationdate` DATE NOT NULL ,
   `deadline` DATE NULL ,
