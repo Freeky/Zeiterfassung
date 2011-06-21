@@ -1,6 +1,6 @@
 <?php
 
-require_once '..\source\cotrols\base\OverviewFilter.php';
+require_once(dirname(__FILE__) . "/../ource/controls/base/OverviewFilter.php");
 
 /**
  * Test class for OverviewFilter.

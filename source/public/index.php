@@ -7,5 +7,11 @@
 <body>
 	<div class="column span-3">Test</div>
 	<div class="column span-3">Some Test content</div>
+	<?php 
+		$date = null;
+		echo $date->format('Y-m-d');
+	
+	
+	?>
 </body>
 </html>
