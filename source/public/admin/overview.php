@@ -1,12 +1,13 @@
 <?php
-	include '../../conf/functions.inc';
-	include "../controller/Controller.php";
+	require_once(dirname(__FILE__) . "/../../controls/conf/functions.inc");
+	require_once(dirname(__FILE__) . "/../../controls/admin/Controller.php");
+	
 	$controller = new Controller();
 	session_start();
 	if($_SESSION['login']!="ok")
 	{
 		echo '
-			<font color="red" face="Helvetica, Arial, sans-serif"><h2>Incorrect Session. You will be redirected to the LogIn-Screen in <span id="counter" class="dd">5</span> seconds.</h2></font><br><meta http-equiv="refresh" content="5; url=http://127.0.0.1/timetraveler/admin/index.php">
+			<font color="red" face="Helvetica, Arial, sans-serif"><h2>Incorrect Session. You will be redirected to the LogIn-Screen in <span id="counter" class="dd">5</span> seconds.</h2></font><br><meta http-equiv="refresh" content="5; url=index.php">
 			<script type="text/javascript">
 			countDown(true);
 			function countDown(init)
@@ -80,8 +81,8 @@
 	{
 		global $controller;
 		
-		$editpic="<img src=\"..\images\edit.jpg\" height=\"25\">";
-		$deletepic="<img src=\"..\images\x.jpg\" height=\"25\">";
+		$editpic="<img src=\"../images/edit.jpg\" height=\"25\">";
+		$deletepic="<img src=\"../images/x.jpg\" height=\"25\">";
 		$users=$controller->getAllUsers();
 		$tmp='<table border="0">';
 		$tmp.='<tr>';
@@ -104,7 +105,7 @@
 			$admin = $users[$i]->getAdmin();
 			if($admin==1){$admin="ADMIN";}else{$admin="USER";}
 			$tmp.='<tr>';
-			$tmp.='<td>'.$uid.'</td><td>'.$name.'</td><td>'.Dots($pw_len).'</td><td>'.$admin.'</td><td><a href="http://127.0.0.1/timetraveler2/admin/views/edit.php?uid='.$uid.'">'.$editpic.'</a></td><td><a href="http://127.0.0.1/timetraveler2/admin/views/delete.php?uid='.$uid.'">'.$deletepic.'</a></td>';
+			$tmp.='<td>'.$uid.'</td><td>'.$name.'</td><td>'.Dots($pw_len).'</td><td>'.$admin.'</td><td><a href="edit.php?uid='.$uid.'">'.$editpic.'</a></td><td><a href="delete.php?uid='.$uid.'">'.$deletepic.'</a></td>';
 			$tmp.='</tr>';
 		}
 		$tmp.='</table>';

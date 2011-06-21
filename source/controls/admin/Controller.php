@@ -1,18 +1,12 @@
 <?php
-	include 'User.php';
-	$db_host='localhost';
-	$db_name='timetraveler';
-	$db_user='fugu';
-	$db_pass='fugu';
-	
-	$db_link= mysql_connect ($db_host, $db_user, $db_pass);
-	mysql_selectdb($db_name,$db_link);
+	require_once(dirname(__FILE__) . "/User.php");
+	require_once(dirname(__FILE__) . "/../conf/connect_db.inc");
 
 	class Controller
 	{
 		function checkLogin($name,$pass)
 		{
-			$SQLResult=mysql_query("SELECT password FROM user WHERE name='$name'");
+			$SQLResult=mysql_query("SELECT password FROM user WHERE user='$name'");
 			if(mysql_num_rows($SQLResult)>0)
 			{
 				$ScanRow=mysql_fetch_array($SQLResult);
@@ -40,7 +34,7 @@
 				$pass=$user->getPassword();
 				$passlen=$user->getPasswordLen();
 				$admin=$user->getAdmin();
-				$SQLResult=mysql_query("INSERT INTO user(name,password,pw_len,admin) VALUES ('$name','$pass','$passlen','$admin')");
+				$SQLResult=mysql_query("INSERT INTO user(user,password,pw_len,admin) VALUES ('$name','$pass','$passlen','$admin')");
 				return true;
 			}
 			else
@@ -57,7 +51,7 @@
 					$pass=$user->getPassword();
 					$passlen=$user->getPasswordLen();
 					$admin=$user->getAdmin();
-					$SQLResult=mysql_query("UPDATE user SET name='$name',password='$pass',pw_len='$passlen',admin='$admin' WHERE uid='$uid'");
+					$SQLResult=mysql_query("UPDATE user SET user='$name',password='$pass',pw_len='$passlen',admin='$admin' WHERE uid='$uid'");
 					return true;
 				}
 				
@@ -66,7 +60,7 @@
 		
 		function checkUserNameAlreadyExists($name,$uid)
 		{
-			$SQLResult=mysql_query("SELECT * FROM user WHERE name='$name' AND uid!='$uid'");
+			$SQLResult=mysql_query("SELECT * FROM user WHERE user='$name' AND uid!='$uid'");
 			return mysql_num_rows($SQLResult)>0;
 		}
 		
@@ -78,10 +72,10 @@
 		
 		function CreateUserObject($uid)
 		{
-			$SQLResult=mysql_query("SELECT uid,name,password,pw_len,admin FROM user WHERE uid='$uid'");
+			$SQLResult=mysql_query("SELECT uid,user,password,pw_len,admin FROM user WHERE uid='$uid'");
 			$ScanRow=mysql_fetch_array($SQLResult);
 			$uid=$ScanRow['uid'];
-			$name=$ScanRow['name'];
+			$name=$ScanRow['user'];
 			$pass=$ScanRow['password'];
 			$passlen=$ScanRow['pw_len'];
 			$admin=$ScanRow['admin'];

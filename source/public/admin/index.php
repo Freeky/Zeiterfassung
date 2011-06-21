@@ -1,5 +1,6 @@
 <?php
-	include "../controller/Controller.php";
+	require_once(dirname(__FILE__) . "/../../controls/admin/Controller.php");
+	
 	$controller = new Controller();
 	
 	if(isset($_REQUEST['username'])&&isset($_REQUEST['pass']))
@@ -8,7 +9,7 @@
 			{
 				session_start();
 				$_SESSION['login'] = "ok";
-				echo "<meta http-equiv=\"refresh\" content=\"0; url=http://127.0.0.1/timetraveler2/admin/views/overview.php\">";
+				echo "<meta http-equiv=\"refresh\" content=\"0; url=overview.php\">";
 			}
 			else
 			{$text="<br>Username/Password/Rights incorrect<br>";}
