@@ -1,39 +1,72 @@
 <?php
 class OverviewFilter 
 {
-	private $from;
-	private $to;
-	private $client = "";
+	private $name = "";
+	private $employer = "";
+	private $description = "";
+	private $createFrom;
+	private $createTo;
+	private $deadlineFrom;
+	private $deadlineTo;
 	private $planned = true;
 	private $inprogress = true;
 	private $done = true;
 	private $canceled = true;
 	
 	function __construct() {
-		$this->from = new DateTime();
-		$this->to = new DateTime();
-		$this->from->modify("-1 week");
+		$this->createFrom = new DateTime();
+		$this->createTo = new DateTime();
+		$this->deadlineFrom = new DateTime();
+		$this->deadlineTo = new DateTime();
+		$this->createFrom->modify("-1 week");
+		$this->deadlineFrom->modify("-1 week");
+		$this->deadlineTo->modify("+1 week");
 	}
 	
 	/*----SETTER----*/
-	public function setFrom($date) {
+
+	public function setName($str) {
+		$this->name = $str;
+	}
+	
+	public function setEmployer($str) {
+		$this->employer = $str;
+	}
+	
+	public function setDescription($str) {
+		$this->description = $str;
+	}
+	
+	public function setCreatedateFrom($date) {
 		$parsedDate = date_parse($date);
 		if($parsedDate)
-			$this->from->setDate($parsedDate['year'],
+			$this->createFrom->setDate($parsedDate['year'],
 								 $parsedDate['month'],
 								 $parsedDate['day']);
 	}
 	
-	public function setTo($date) {
+	public function setCreatedateTo($date) {
 		$parsedDate = date_parse($date);
 		if($parsedDate)
-			$this->to->setDate($parsedDate['year'],
+			$this->createTo->setDate($parsedDate['year'],
 							   $parsedDate['month'],
 							   $parsedDate['day']);
 	}
 	
-	public function setClient($str) {
-		$this->client = $str;
+	public function setDeadlineFrom($date) {
+		$parsedDate = date_parse($date);
+		if($parsedDate)
+			$this->deadlineFrom->setDate($parsedDate['year'],
+								 $parsedDate['month'],
+								 $parsedDate['day']);
+	}
+	
+	public function setDeadlineTo($date) {
+		$parsedDate = date_parse($date);
+		if($parsedDate)
+			$this->deadlineTo->setDate($parsedDate['year'],
+							   $parsedDate['month'],
+							   $parsedDate['day']);
 	}
 	
 	public function setPlanned($bool) {
@@ -53,16 +86,33 @@ class OverviewFilter
 	}
 	
 	/*----GETTER----*/
-	public function getFrom(){
-		return $this->from->format("d.m.Y");
+
+	public function getName() {
+		return $this->name;
 	}
 	
-	public function getTo() {
-		return $this->to->format("d.m.Y");
+	public function getEmployer() {
+		return $this->employer;
 	}
 	
-	public function getClient() {
-		return $this->client;
+	public function getDescription() {
+		return $this->description;
+	}
+	
+	public function getCreatedateFrom(){
+		return $this->createFrom;
+	}
+	
+	public function getCreatedateTo() {
+		return $this->createTo;
+	}
+	
+	public function getDeadlineFrom(){
+		return $this->deadlineFrom;
+	}
+	
+	public function getDeadlineTo() {
+		return $this->deadlineTo;
 	}
 	
 	public function getPlanned() {

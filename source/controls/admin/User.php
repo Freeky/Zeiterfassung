@@ -1,7 +1,6 @@
 <?php
 	class User
 	{
-		private $controller;
 		private $uid;
 		private $name;
 		private $pw;

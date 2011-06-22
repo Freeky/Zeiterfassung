@@ -34,14 +34,14 @@
 
 <body>
 <div class="mitte" id="main">
-		<form action="index.php" method="get">
+		<form action="index.php" method="post">
 				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
 				
 					<tr>
 						<td height="50%" align="center">
 							<img src="../images/timetraveler-logo.jpg" width="350">
 							<br>
-							<font color="red" face="Helvetica, Arial, sans-serif"><strong><?php echo $text; ?></strong></font>
+							<font color="red" face="Helvetica, Arial, sans-serif"><strong><?php if(isset($text)) echo $text; ?></strong></font>
 							<br>
 						</td>
 					</tr>
