@@ -49,6 +49,8 @@
 				$query = $query."and creationdate <= '".mysql_real_escape_string($maxCreationDate->format("Y-m-d"))."' ";
 			}
 			
+			$query = $query."and (deadline is NULL or ( 1=1 ";
+			
 			if(!is_null($minDeadline)) {
 				$query = $query."and deadline >= '".mysql_real_escape_string($minDeadline->format("Y-m-d"))."' ";
 			}
@@ -57,6 +59,8 @@
 				$query = $query."and deadline <= '".mysql_real_escape_string($maxDeadline->format("Y-m-d"))."' ";
 			}
 			
+			$query = $query.")) ";
+
 			if(!is_null($status)) {
 				$query = $query."and ( 1=0 ";
 				foreach($status as $s) {
@@ -169,7 +173,8 @@
 			$assignment->setDescription($result['description']);
 			$assignment->setEmployer($result['employer']);
 			$assignment->setCreationDate(new DateTime($result['creationdate']));
-			$assignment->setDeadline(new DateTime($result['deadline']));
+			if(!is_null($result['deadline']))
+				$assignment->setDeadline(new DateTime($result['deadline']));
 			$assignment->setStatus($result['status']);
 			
 			return $assignment;

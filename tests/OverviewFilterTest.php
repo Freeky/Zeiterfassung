@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . "/../ource/controls/base/OverviewFilter.php");
+require_once(dirname(__FILE__) . "/../source/controls/base/OverviewFilter.php");
 
 /**
  * Test class for OverviewFilter.
@@ -30,28 +30,28 @@ class OverviewFilterTest extends PHPUnit_Framework_TestCase
     {
     }
 
-    public function testFrom()
+    public function testCreatedateFrom()
     {
     	$testDate = "19.04.2011";
-        $this->object->setFrom($testDate);
+        $this->object->setCreatedateFrom($testDate);
         
-        $this->assertEquals($this->object->getFrom(), $testDate);
+        $this->assertEquals($this->object->getCreatedateFrom(), $testDate);
     }
 
-    public function testTo()
+    public function testCreatedateTo()
     {
         $testDate = "19.04.2011";
-        $this->object->setTo($testDate);
+        $this->object->setCreatedateTo($testDate);
         
-        $this->assertEquals($this->object->getTo(), $testDate);
+        $this->assertEquals($this->object->getCreatedateTo(), $testDate);
     }
 
-    public function testClient()
+    public function testEmployer()
     {
-        $expectedClient = "myclient";
-        $this->object->setClient($expectedClient);
-        $actualClient = $this->object->getClient();
-        $this->assertEquals($actualClient, $expectedClient);
+        $expectedEmployer = "myemployer";
+        $this->object->setEmployer($expectedEmployer);
+        $actualEmployer = $this->object->getEmployer();
+        $this->assertEquals($actualEmployer, $expectedEmployer);
     }
 
     public function testPlanned()

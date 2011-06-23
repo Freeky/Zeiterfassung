@@ -96,7 +96,7 @@
 			   is_null($task->getStarttime()) or 
 			   is_null($task->getEndtime()) or
 			   is_null($task->getStatus())) {
-			   	throw new Exception("saveAssignment received an invalid Assignment");
+			   	throw new Exception("saveTask received an invalid Task");
 			}
 			
 			if($task->getID() <= 0) {

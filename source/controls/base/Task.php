@@ -42,7 +42,7 @@
 			$this->endtime = $date; 
 		}
 		
-		public function setStatus($status) { 
+		public function setStatus($status) {
 			$status = ucwords(strtolower($status));
 			if($status != "Done" and 
 			   $status != "Planned" and 

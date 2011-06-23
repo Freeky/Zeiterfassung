@@ -6,11 +6,25 @@
 	{
 		function checkLogin($name,$pass)
 		{
-			$SQLResult=mysql_query("SELECT password FROM user WHERE user='$name'");
-			if(mysql_num_rows($SQLResult)>0)
+			$SQLResult=mysql_query("SELECT password FROM user WHERE user='$name' AND admin='1'");
+			if(($SQLResult != false) and (mysql_num_rows($SQLResult)>0))
 			{
 				$ScanRow=mysql_fetch_array($SQLResult);
 				if(hash("sha512",$pass)==$ScanRow['password']){return true;}else{return false;}
+			}else{return false;}
+		}
+		
+		function checkNonAdminLogin($name,$pass)
+		{
+			$SQLResult=mysql_query("SELECT password FROM user WHERE user='$name'");
+			if(($SQLResult != false) and (mysql_num_rows($SQLResult)>0))
+			{
+				$ScanRow=mysql_fetch_array($SQLResult);
+				if(hash("sha512",$pass)==$ScanRow['password']){
+					return true;
+				}else{
+					return false;
+				}
 			}else{return false;}
 		}
 		
@@ -93,6 +107,13 @@
 		function CreateEmptyUserObject()
 		{
 			return new User();
+		}
+		
+		function getUserByName($name)
+		{
+			$SQLResult=mysql_query("SELECT uid FROM user WHERE user='$name'");
+			$ScanRow=mysql_fetch_array($SQLResult);
+			return $this->CreateUserObject($ScanRow['uid']);
 		}
 	}
 ?>
