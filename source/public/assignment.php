@@ -130,7 +130,7 @@ if(isset($_REQUEST['add-task'])) {
 				Auftraggeber: <br /> <input name="assignment-employer" type="text"
 					style="width: 100%;"
 					value="<?php echo htmlspecialchars($assignment->getEmployer()); ?>"><br />
-				Status: <br /> <select name="task-status" style="width: 100%">
+				Status: <br /> <select name="assignment-status" style="width: 100%">
 					<option <?php if($status == "Planned") echo "selected"; ?>>Planned</option>
 					<option <?php if($status == "In Progress") echo "selected"; ?>>In Progress</option>
 					<option <?php if($status == "Done") echo "selected"; ?>>Done</option>
