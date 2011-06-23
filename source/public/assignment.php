@@ -21,31 +21,35 @@ $tc = new TaskConnector;
 $assignment = $ac->getAssignmentByID(intval($_REQUEST['id']));
 
 if(isset($_REQUEST['save-assignment'])){
-
-	if($_REQUEST['assignment-name'] != "")
-	$assignment->setName($_REQUEST['assignment-name']);
-
-	if($_REQUEST['assignment-employer'] != "")
-	$assignment->setEmployer($_REQUEST['assignment-employer']);
-
-	$assignment->setDescription($_REQUEST['assignment-description']);
-
-	$assignment->setStatus($_REQUEST['assignment-status']);
-
-	if($_REQUEST['assignment-deadline'] != ""){
-		$parsedDate = date_parse($_REQUEST['assignment-deadline']);
-		if($parsedDate and $parsedDate['year'] > 0){
-			$deadline = new DateTime();
-			$deadline->setDate($parsedDate['year'],
-			$parsedDate['month'],
-			$parsedDate['day']);
-			$assignment->setDeadline($deadline);
+	try {
+		if($_REQUEST['assignment-name'] != "")
+		$assignment->setName($_REQUEST['assignment-name']);
+	
+		if($_REQUEST['assignment-employer'] != "")
+		$assignment->setEmployer($_REQUEST['assignment-employer']);
+	
+		$assignment->setDescription($_REQUEST['assignment-description']);
+	
+		$assignment->setStatus($_REQUEST['assignment-status']);
+	
+		if($_REQUEST['assignment-deadline'] != ""){
+			$parsedDate = date_parse($_REQUEST['assignment-deadline']);
+			if($parsedDate and $parsedDate['year'] > 0){
+				$deadline = new DateTime();
+				$deadline->setDate($parsedDate['year'],
+				$parsedDate['month'],
+				$parsedDate['day']);
+				$assignment->setDeadline($deadline);
+			}
+		}else {
+			$assignment->setDeadline(NULL);
 		}
-	}else {
-		$assignment->setDeadline(NULL);
+	
+		$ac->saveAssignment($assignment);
+	
+	} catch (Exception $ex) {
+		echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
 	}
-
-	$ac->saveAssignment($assignment);
 }
 
 $status = $assignment->getStatus();
@@ -56,41 +60,44 @@ if(isset($_REQUEST['add-task'])) {
 	and isset($_REQUEST['task-status'])
 	and isset($_REQUEST['task-starttime'])
 	and isset($_REQUEST['task-endtime'])){
-		
-		$task = new Task;
-		$task->setAssignmentRef($assignment->getID());
-		$task->setUserRef($_SESSION['user']->getUID());
-		$task->setName($_REQUEST['task-name']);
-		$task->setDescription($_REQUEST['task-description']);
-		$task->setStatus($_REQUEST['task-status']);
-		
-		if($_POST['task-starttime'] != ""){
-			$parsedDate = date_parse($_POST['task-starttime']);
-			if($parsedDate and $parsedDate['year'] > 0){
-				$starttime = new DateTime();
-				$starttime->setDate($parsedDate['year'],
-				$parsedDate['month'],
-				$parsedDate['day']);
-				$starttime->setTime($parsedDate['hour'],
-				$parsedDate['minute']);
-				$task->setStarttime($starttime);
+		try {
+			$task = new Task;
+			$task->setAssignmentRef($assignment->getID());
+			$task->setUserRef($_SESSION['user']->getUID());
+			$task->setName($_REQUEST['task-name']);
+			$task->setDescription($_REQUEST['task-description']);
+			$task->setStatus($_REQUEST['task-status']);
+			
+			if($_POST['task-starttime'] != ""){
+				$parsedDate = date_parse($_POST['task-starttime']);
+				if($parsedDate and $parsedDate['year'] > 0){
+					$starttime = new DateTime();
+					$starttime->setDate($parsedDate['year'],
+					$parsedDate['month'],
+					$parsedDate['day']);
+					$starttime->setTime($parsedDate['hour'],
+					$parsedDate['minute']);
+					$task->setStarttime($starttime);
+				}
 			}
-		}
-		
-		if($_POST['task-endtime'] != ""){
-			$parsedDate = date_parse($_POST['task-endtime']);
-			if($parsedDate and $parsedDate['year'] > 0){
-				$endtime = new DateTime();
-				$endtime->setDate($parsedDate['year'],
-				$parsedDate['month'],
-				$parsedDate['day']);
-				$endtime->setTime($parsedDate['hour'],
-				$parsedDate['minute']);
-				$task->setEndtime($endtime);
+			
+			if($_POST['task-endtime'] != ""){
+				$parsedDate = date_parse($_POST['task-endtime']);
+				if($parsedDate and $parsedDate['year'] > 0){
+					$endtime = new DateTime();
+					$endtime->setDate($parsedDate['year'],
+					$parsedDate['month'],
+					$parsedDate['day']);
+					$endtime->setTime($parsedDate['hour'],
+					$parsedDate['minute']);
+					$task->setEndtime($endtime);
+				}
 			}
+			
+			$tc->saveTask($task);
+		} catch (Exception $ex) {
+			echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
 		}
-		
-		$tc->saveTask($task);
 	}
 }
 ?>

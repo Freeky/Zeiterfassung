@@ -28,41 +28,45 @@ $starttime = $task->getStarttime();
 $endtime = $task->getEndtime();
 
 if(isset($_REQUEST['save-task'])){
-	
-	$task->setUserRef($_SESSION['user']->getUID());
-	
-	if(isset($_REQUEST['task-name']))
-		$task->setName($_REQUEST['task-name']);
+	try {
+		$task->setUserRef($_SESSION['user']->getUID());
 		
-	if(isset($_REQUEST['task-status']))
-		$task->setStatus($_REQUEST['task-status']);
+		if(isset($_REQUEST['task-name']))
+			$task->setName($_REQUEST['task-name']);
+			
+		if(isset($_REQUEST['task-status']))
+			$task->setStatus($_REQUEST['task-status']);
+			
+		$task->setDescription($_REQUEST['task-description']);
 		
-	$task->setDescription($_REQUEST['task-description']);
-	
-	if($_REQUEST['task-starttime'] != ""){
-		$parsedDate = date_parse($_REQUEST['task-starttime']);
-		if($parsedDate and $parsedDate['year'] > 0){
-			$starttime = new DateTime();
-			$starttime->setDate($parsedDate['year'],
-			$parsedDate['month'],
-			$parsedDate['day']);
-			$starttime->setTime($parsedDate['hour'],
-			$parsedDate['minute']);
-			$task->setStarttime($starttime);
+		if($_REQUEST['task-starttime'] != ""){
+			$parsedDate = date_parse($_REQUEST['task-starttime']);
+			if($parsedDate and $parsedDate['year'] > 0){
+				$starttime = new DateTime();
+				$starttime->setDate($parsedDate['year'],
+				$parsedDate['month'],
+				$parsedDate['day']);
+				$starttime->setTime($parsedDate['hour'],
+				$parsedDate['minute']);
+				$task->setStarttime($starttime);
+			}
 		}
-	}
-	
-	if($_REQUEST['task-endtime'] != ""){
-		$parsedDate = date_parse($_REQUEST['task-endtime']);
-		if($parsedDate and $parsedDate['year'] > 0){
-			$endtime = new DateTime();
-			$endtime->setDate($parsedDate['year'],
-			$parsedDate['month'],
-			$parsedDate['day']);
-			$endtime->setTime($parsedDate['hour'],
-			$parsedDate['minute']);
-			$task->setEndtime($endtime);
+		
+		if($_REQUEST['task-endtime'] != ""){
+			$parsedDate = date_parse($_REQUEST['task-endtime']);
+			if($parsedDate and $parsedDate['year'] > 0){
+				$endtime = new DateTime();
+				$endtime->setDate($parsedDate['year'],
+				$parsedDate['month'],
+				$parsedDate['day']);
+				$endtime->setTime($parsedDate['hour'],
+				$parsedDate['minute']);
+				$task->setEndtime($endtime);
+			}
 		}
+	
+	} catch (Exception $ex) {
+		echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
 	}
 		
 }

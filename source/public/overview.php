@@ -36,26 +36,30 @@ if(isset($_POST['add-assignment'])){
 	if(isset($_POST['name'])
 	and isset($_POST['employer'])
 	and isset($_POST['status'])){
-
-		$assignment = new Assignment();
-		$assignment->setName($_POST['name']);
-		$assignment->setEmployer($_POST['employer']);
-		$assignment->setDescription($_POST['description']);
-		$assignment->setStatus($_POST['status']);
-		$assignment->setCreationDate(new DateTime());
-
-		if($_POST['deadline'] != ""){
-			$parsedDate = date_parse($_POST['deadline']);
-			if($parsedDate and $parsedDate['year'] > 0){
-				$deadline = new DateTime();
-				$deadline->setDate($parsedDate['year'],
-				$parsedDate['month'],
-				$parsedDate['day']);
-				$assignment->setDeadline($deadline);
+		try {
+			$assignment = new Assignment();
+			$assignment->setName($_POST['name']);
+			$assignment->setEmployer($_POST['employer']);
+			$assignment->setDescription($_POST['description']);
+			$assignment->setStatus($_POST['status']);
+			$assignment->setCreationDate(new DateTime());
+	
+			if($_POST['deadline'] != ""){
+				$parsedDate = date_parse($_POST['deadline']);
+				if($parsedDate and $parsedDate['year'] > 0){
+					$deadline = new DateTime();
+					$deadline->setDate($parsedDate['year'],
+					$parsedDate['month'],
+					$parsedDate['day']);
+					$assignment->setDeadline($deadline);
+				}
 			}
+	
+			$ac->saveAssignment($assignment);
+		
+		} catch (Exception $ex) {
+			echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
 		}
-
-		$ac->saveAssignment($assignment);
 	} else {
 		echo "Angaben zum Anlegen eines Auftrags waren unvollständig!";
 	}
