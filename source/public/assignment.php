@@ -48,7 +48,7 @@ if(isset($_REQUEST['save-assignment'])){
 		$ac->saveAssignment($assignment);
 	
 	} catch (Exception $ex) {
-		echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
+		echo "Beim Einfügen ist ein Fehler aufgetreten: $ex <br />";
 	}
 }
 
@@ -96,7 +96,7 @@ if(isset($_REQUEST['add-task'])) {
 			
 			$tc->saveTask($task);
 		} catch (Exception $ex) {
-			echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
+			echo "Beim Einfügen ist ein Fehler aufgetreten: $ex <br />";
 		}
 	}
 }

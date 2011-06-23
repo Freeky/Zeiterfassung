@@ -64,9 +64,11 @@ if(isset($_REQUEST['save-task'])){
 				$task->setEndtime($endtime);
 			}
 		}
+		
+		$tc->saveTask($task);
 	
 	} catch (Exception $ex) {
-		echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
+		echo "Beim Einfügen ist ein Fehler aufgetreten: $ex <br />";
 	}
 		
 }

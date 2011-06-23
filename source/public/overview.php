@@ -58,7 +58,7 @@ if(isset($_POST['add-assignment'])){
 			$ac->saveAssignment($assignment);
 		
 		} catch (Exception $ex) {
-			echo "Beim Einfügen ist ein Fehler aufgetreten <br />";
+			echo "Beim Einfügen ist ein Fehler aufgetreten: $ex <br />";
 		}
 	} else {
 		echo "Angaben zum Anlegen eines Auftrags waren unvollständig!";
