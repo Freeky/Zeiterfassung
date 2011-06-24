@@ -54,7 +54,7 @@ $OUTPUT='<table width=700><tr><td align=center><h1><u>RECHNUNG</u></h1><br></td>
 
 <table border="0">
 	<tr>
-		<td colspan="5"><h2><u>Aufw‰nde:</u></h2></td>
+		<td colspan="5"><h2><u>Aufw√§nde:</u></h2></td>
 	</tr>
 	<tr>
 		<td width=90><u>Datum:</u></td>
@@ -73,7 +73,7 @@ while($line=mysql_fetch_array($result))
 	<td valign="top">'.getDetailTech($did).'</td>
 	<td valign="top">'.getDetailDescription($did).'</td>
 	<td valign="top">'.getDetailTime($did).' Std.</td>
-	<td valign="top">'.getDetailPayPerHour($did)*getDetailTime($did).' &euro;</td>
+	<td valign="top">'.number_format(getDetailPayPerHour($did)*getDetailTime($did),2).' &euro;</td>
 	</tr>';
 	$JMONEY+=getDetailPayPerHour($did)*getDetailTime($did);
 }
@@ -87,7 +87,7 @@ $OUTPUT.='
 		<td>---</td>
 		<td>---</td>
 		<td>Gesamt:</td>
-		<td>'.$JMONEY.' &euro;</td>
+		<td>'.number_format($JMONEY,2).' &euro;</td>
 	</tr>
 </table>
 
@@ -146,25 +146,25 @@ function getJobDescription($id)
 
 function getJobDescription2($id)
 {
-	$result=mysql_query("SELECT descritption FROM assignment WHERE id=$id");
+	$result=mysql_query("SELECT description FROM assignment WHERE id=$id");
 	$line=mysql_fetch_array($result);
-	$value=$line['descritption'];
+	$value=$line['description'];
 	return $value;
 }
 
 function getJobOverallTime($id)
 {
 	$alltime="00:00:00";
-	$result=mysql_query("SELECT TIMEDIFF(endtime,starttime) FROM task WHERE id=$id");
+	$result=mysql_query("SELECT TIMEDIFF(endtime,starttime) FROM task WHERE assignmentref=$id");
 	while($line=mysql_fetch_array($result))
 	{
-		$tmp2=$line['TIMEDIFF(endtime,starttime)'];
+		$tmp2=$line[0];
 		$tmp=mysql_fetch_array(mysql_query("SELECT ADDTIME(\"$tmp2\",\"$alltime\")"));
 		$alltime=$tmp[0];
 	}
 	$splits=explode(":",$alltime);
 	$seconds=$splits[0]*60*60+$splits[1]*60+$splits[2];
-	return round((int)($seconds/3600)+(($seconds%3600)/3600),2);
+	return number_format(round((float)($seconds/3600)+(($seconds%3600)/3600),2),2);
 }
 
 function getDetailDate($did)
@@ -202,7 +202,7 @@ function getDetailTime($did)
 	$value=$line[0];
 	$splits=explode(":",$value);
 	$seconds=$splits[0]*60*60+$splits[1]*60+$splits[2];
-	return round((int)($seconds/3600)+(($seconds%3600)/3600),2);
+	return number_format(round((float)($seconds/3600)+(($seconds%3600)/3600),2),2);
 }
 
 function getDetailPayPerHour($did)
